@@ -172,11 +172,11 @@ footer small{color:var(--ink-3)}
 
     <div class="panel detail" id="detail">
       <span class="tag" style="background:var(--violet-soft);color:var(--violet)">Mode d’emploi</span>
-      <div><h3>Touchez un élément de la frise</h3><p class="muted">Sa date, l’âge d’Angélique à ce moment et une explication des termes s’affichent ici. Le curseur ci-dessus permet de rejouer le parcours année par année.</p></div>
+      <div><h3>Touchez un élément de la frise</h3><p class="muted">Sa date, l’âge de la personne à ce moment et une explication des termes s’affichent ici. Le curseur ci-dessus permet de rejouer le parcours année par année.</p></div>
     </div>
   </section>
 
-  <section>
+  <section id="readSec">
     <div class="sh"><div class="eyebrow">Lire la frise</div><h2>Pistes de lecture</h2><p class="muted" style="font-size:.88rem">Proposition de travail, à discuter avec le chef de projet.</p></div>
     <div class="grid2 reading">
       <div><b>2015 → 2026 · Expertise d’action</b>Dès l’entrée au conseil citoyen, l’engagement devient une compétence reconnue : aller vers les habitant·es, orienter les jeunes. Elle traverse le licenciement, la reconversion et le rôle d’habitante-relais.</div>
@@ -209,7 +209,6 @@ const TYPES={
   asso:{nom:'Expérience associative',couleur:'var(--bleu)',soft:'var(--bleu-soft)',desc:'Période d’engagement associatif, en bleu'}
 };
 const LANES=[['expertise','EXPERTISE D’ACTION'],['perso','EXPÉRIENCES PERSONNELLES'],['pro','EXPÉRIENCES PROFESSIONNELLES'],['asso','EXPÉRIENCES ASSOCIATIVES']];
-const laneHt=t=>t==='expertise'?140:88;
 
 const PARCOURS=[{
   id:'p1', court:'Angélique',
@@ -234,6 +233,42 @@ const PARCOURS=[{
     {t:'pro',d:2017,f:2026,txt:'Agent périscolaire'},
     {t:'asso',d:1994,f:2009,txt:'OYONN’ACT',g:'Politique de la ville'}
   ]
+},{
+  id:'p2', court:'Hajer', W:1600, compact:true,
+  titre:'Parcours d’une conseillère citoyenne d’Oyonnax (Hajer)',
+  naissance:{date:'1963',annee:1963},
+  fin:2026,
+  points:[
+    {a:1982,t:'evenement',txt:'Arrivée en France',q:'année lue « 198? » : 1982 d’après la période d’exil'},
+    {a:1988,t:'evenement',txt:'Divorce prononcé'},
+    {a:2003,t:'evenement',txt:'Rencontre avec une habitante'},
+    {a:2005,t:'evenement',txt:'Rapprochement avec une habitante qui permet de recréer du lien social',q:'fin de phrase difficile à lire'},
+    {a:2008,t:'engagement',txt:'Bénévole AGLCR'},
+    {a:2008,t:'engagement',txt:'Organisation de la fête du quartier de la Forge'},
+    {a:2009,t:'engagement',txt:'Présidente AGLCR'},
+    {a:2011,t:'engagement',txt:'Membre du CA de l’ACSO'},
+    {a:2012,t:'engagement',txt:'Trésorière CAGO'},
+    {a:2014,t:'engagement',txt:'Vice-présidente ACSO'},
+    {a:2015,t:'conseil',txt:'Entrée au conseil citoyen (collège associatif)',g:'Conseil citoyen'},
+    {a:2016,lab:'≈ 2016',t:'evenement',txt:'Formation à la prise de parole',q:'année non indiquée'},
+    {a:2017,lab:'≈ 2017',t:'evenement',txt:'Formation à la communication non violente',q:'année non indiquée'},
+    {a:2020,t:'engagement',txt:'Bénévole AEVL'},
+    {a:2022,t:'engagement',txt:'Journée européenne de la participation citoyenne'},
+    {a:2022,t:'evenement',txt:'Visite ANCT – Assemblée nationale (Paris)',q:'libellé à confirmer'},
+    {a:2023,t:'engagement',txt:'Organisation de la journée du conseil citoyen',g:'Conseil citoyen'}
+  ],
+  periodes:[
+    {t:'expertise',d:2015,f:2026,txt:'Lecture de projets, participation au COPIL du contrat de ville, organisation d’activités et d’évènements',q:'dessinée à partir de 2020 sur le relevé'},
+    {t:'perso',d:1982,f:2026,txt:'Sentiment de solitude et éloignement de la famille dû à l’exil'},
+    {t:'perso',d:1983,f:1987,txt:'Combat pour mettre fin à une relation toxique'},
+    {t:'perso',d:1997,f:2001,txt:'Relation conjugale toxique',q:'dates lues « 1997 – 2001 »'},
+    {t:'perso',d:2018,f:2025,txt:'Soutien à une habitante âgée'},
+    {t:'asso',d:2008,f:2026,txt:'Engagement associatif AGLCR'},
+    {t:'asso',d:2011,f:2021,txt:'Engagement associatif ACSO'},
+    {t:'asso',d:2011,f:2014,lab:'≈ 2011 – 2014',approx:true,txt:'Projet mémoire CV',q:'dates non indiquées'},
+    {t:'asso',d:2012,f:2023,txt:'Engagement associatif CAGO'},
+    {t:'asso',d:2020,f:2026,txt:'Engagement associatif AEVL'}
+  ]
 }];
 
 const GLOSS=[
@@ -243,6 +278,7 @@ const GLOSS=[
   ['ANRU','Agence nationale pour la rénovation urbaine. Une concertation ANRU associe les habitant·es aux projets de rénovation de leur quartier.'],
   ['Aller vers','Démarche qui consiste à rejoindre les personnes là où elles sont, plutôt que d’attendre qu’elles viennent aux services.'],
   ['Expertise d’action','Savoir acquis par l’expérience de terrain et l’engagement, reconnu ici à partir de l’entrée au conseil citoyen.'],
+  ['Contrat de ville','Contrat entre l’État, la commune et ses partenaires qui fixe les actions de la politique de la ville dans les quartiers prioritaires ; son comité de pilotage (COPIL) réunit les acteurs, dont des membres du conseil citoyen.'],
   ['Habitante-relais','Habitante qui fait le lien entre ses voisin·es et les institutions, ici les bailleurs sociaux.']
 ];
 
@@ -254,21 +290,29 @@ function itemByKey(P,k){if(k==='n')return allPoints(P)[0];if(k[0]==='p')return {
 
 /* opts: anim (bool), sel (clé sélectionnée), hit (bool : éléments cliquables) */
 function friseSVG(P,opts={}){
-  const W=opts.W||1500,X0=70,X1=W-250,Y0=1957,Y1=2027,anim=opts.anim!==false,hit=opts.hit!==false;
+  const W=opts.W||P.W||1500,X0=70,X1=W-250,Y0=1957,Y1=2027,anim=opts.anim!==false,hit=opts.hit!==false;
   const x=a=>X0+(a-Y0)*(X1-X0)/(Y1-Y0);
   const pts=allPoints(P);
   pts.forEach(p=>{p.lines=wrap(p.txt,26);p.w=Math.max(...p.lines.map(l=>l.length))*(p.t==='conseil'?9.6:8)+14;p.x=x(p.a)});
   const sorted=[...pts].sort((a,b)=>b.x-a.x);
-  sorted.forEach((p,i)=>{let L=0;for(let j=0;j<i;j++){const q=sorted[j];if(q.x>p.x&&q.x<p.x+p.w+6)L=Math.max(L,q.lv+1)}p.lv=L});
+  if(P.compact){const ends=[];[...pts].sort((a,b)=>a.x-b.x).forEach(p=>{let L=ends.findIndex(e=>e<p.x-4);if(L<0){L=ends.length;ends.push(0)}ends[L]=p.x+p.w+4;p.lv=L})}
+  else sorted.forEach((p,i)=>{let L=0;for(let j=0;j<i;j++){const q=sorted[j];if(q.x>=p.x&&q.x<p.x+p.w+6)L=Math.max(L,q.lv+1)}p.lv=L});
   const nL=Math.max(...pts.map(p=>p.lv))+1, LH=80, top=22;
   const axisY=top+76+(nL-1)*LH, laneTop=axisY+48;
-  const laneY={};let yy=laneTop;LANES.forEach(([t])=>{laneY[t]=yy;yy+=laneHt(t)});const H=yy+18;
+  // rangement des périodes : sous-lignes par couloir, libellé dehors si la barre est trop courte
+  const BH=t=>t==='expertise'?122:66;
+  const lanes=LANES.filter(([t])=>P.periodes.some(p=>p.t===t));
+  const per=P.periodes.map((p,i)=>{const x1=x(p.d),x2=x(p.f)+(p.f>=P.fin?10:0),w=x2-x1;const out=p.t!=='expertise'&&w<150;
+    const ol=out?wrap(p.txt,24):null;const end=out?x2+8+Math.max(...ol.map(l=>l.length),9)*7.8:x2;return {...p,i,x1,x2,w,out,ol,end}});
+  const rowsOf={};lanes.forEach(([t])=>{const rows=[];per.filter(p=>p.t===t).sort((a,b)=>a.x1-b.x1).forEach(p=>{let r=rows.findIndex(e=>e<p.x1-6);if(r<0){r=rows.length;rows.push(0)}rows[r]=p.end;p.row=r});rowsOf[t]=Math.max(rows.length,1)});
+  const laneH=t=>rowsOf[t]*(BH(t)+8)+10;
+  const laneY={};let yy=laneTop;lanes.forEach(([t])=>{laneY[t]=yy;yy+=laneH(t)+6});const H=yy+14;
   const ti=hit?' tabindex="0" role="button"':'';
   let s=`<svg class="frise${anim?' anim':''}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(P.titre)}">`;
-  LANES.forEach(([t,lbl])=>{const y=laneY[t],h=laneHt(t),ex=t==='expertise';s+=`<rect x="${X0-10}" y="${y}" width="${W-X0-40}" height="${h-8}" rx="6" fill="${TYPES[t].soft}" opacity="${ex?.9:.45}"${ex?' stroke="var(--violet)" stroke-width="1.5"':''}/><text class="lane-t" x="${X0}" y="${y+h/2}" style="fill:${TYPES[t].couleur}${ex?';font-weight:700;font-size:14px':''}">${lbl}</text>`});
+  lanes.forEach(([t,lbl])=>{const y=laneY[t],h=laneH(t),ex=t==='expertise';s+=`<rect x="${X0-10}" y="${y}" width="${W-X0-40}" height="${h}" rx="6" fill="${TYPES[t].soft}" opacity="${ex?.9:.45}"${ex?' stroke="var(--violet)" stroke-width="1.5"':''}/><text class="lane-t" x="${X0}" y="${y+Math.min(h/2,48)}" style="fill:${TYPES[t].couleur}${ex?';font-weight:700;font-size:14px':''}">${lbl}</text>`});
   const cc=P.points.find(p=>p.t==='conseil');
   if(cc){
-    s+=`<rect class="f-fade" x="${x(cc.a)}" y="${axisY-6}" width="${x(P.fin)+10-x(cc.a)}" height="${laneY.expertise+laneHt('expertise')-8-axisY+6}" fill="var(--violet)" opacity=".08" style="animation-delay:1s"/>`;
+    if(laneY.expertise!=null)s+=`<rect class="f-fade" x="${x(cc.a)}" y="${axisY-6}" width="${x(P.fin)+10-x(cc.a)}" height="${laneY.expertise+laneH('expertise')-axisY+6}" fill="var(--violet)" opacity=".08" style="animation-delay:1s"/>`;
     s+=`<line x1="${x(cc.a)}" y1="${axisY+34}" x2="${x(cc.a)}" y2="${H-14}" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="4 4" class="f-fade" style="animation-delay:1.1s"/>`;
   }
   s+=`<line class="f-axis" x1="${X0-10}" y1="${axisY}" x2="${x(P.fin)+30}" y2="${axisY}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>`;
@@ -276,20 +320,22 @@ function friseSVG(P,opts={}){
   for(let a=P.naissance.annee;a<=P.fin;a++){const big=a%5===0;s+=`<line x1="${x(a)}" y1="${axisY}" x2="${x(a)}" y2="${axisY+(big?9:4)}" stroke="var(--ink-3)" stroke-width="1"/>`;if(big)s+=`<text class="yr" x="${x(a)}" y="${axisY+27}" text-anchor="middle">${a}</text>`}
   s+=`<text class="yr" x="${x(P.fin)+30}" y="${axisY+27}" text-anchor="middle" style="fill:var(--violet)">${P.fin}</text>`;
   if(opts.cursor!=null){const cx=x(Math.min(opts.cursor,P.fin)+.5);s+=`<g class="cursor"><line x1="${cx}" y1="${top}" x2="${cx}" y2="${H-10}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 5"/><rect x="${cx-24}" y="${axisY-13}" width="48" height="26" rx="13" fill="var(--ink)"/><text x="${cx}" y="${axisY+5}" text-anchor="middle" class="dt" style="fill:var(--sheet)">${opts.cursor}</text></g>`}
-  P.periodes.forEach((p,i)=>{const ex=p.t==='expertise';const y=laneY[p.t]+5;const bh=laneHt(p.t)-18;const x1=x(p.d),x2=x(p.f)+(p.f>=P.fin?10:0);const w=x2-x1;const col=TYPES[p.t].couleur;
-    const key='r'+i;const dl=1+i*.12;
-    s+=`<g class="hit${opts.sel===key?' sel':''}" data-k="${key}" data-a="${p.d}" data-t="${p.t}"${ti} aria-label="${esc(TYPES[p.t].nom+' '+p.d+' – '+p.f+' : '+p.txt)}">`+(ex?`<rect class="f-fade xp-halo" x="${x1-6}" y="${y-6}" width="${w+12}" height="${bh+12}" rx="11" fill="none" stroke="var(--violet)" stroke-width="3" opacity=".45" style="animation-delay:${dl+.5}s"/>`:'')+`<rect class="bar f-bar" x="${x1}" y="${y}" width="${w}" height="${bh}" rx="7" fill="${col}" style="animation-delay:${dl}s"/>`;
-    s+=`<g class="f-fade" style="animation-delay:${dl+.4}s"><text class="dt" x="${x1+8}" y="${y+18}" style="fill:var(--sheet)">${p.d} – ${p.f}</text>`;
-    if(ex){s+=`<text class="lb" x="${x1+8}" y="${y+42}" style="fill:var(--sheet);font-weight:700;font-size:16px">Expertise d’action</text>`;wrap(p.txt,Math.floor((w-16)/7.4)).forEach((l,j)=>s+=`<text class="lb" x="${x1+8}" y="${y+64+j*18}" style="fill:var(--sheet);font-size:14.5px">${esc(l)}</text>`)}
-    else wrap(p.txt,Math.max(10,Math.floor((w-14)/8))).slice(0,3).forEach((l,j)=>s+=`<text class="lb" x="${x1+8}" y="${y+36+j*17}" style="fill:var(--sheet)">${esc(l)}</text>`);
+  per.forEach(p=>{const ex=p.t==='expertise';const bh=BH(p.t);const y=laneY[p.t]+5+p.row*(bh+8);const {x1,x2,w}=p;const col=TYPES[p.t].couleur;
+    const key='r'+p.i;const dl=1+p.i*.12;const lab=p.lab||(p.d+' – '+p.f);
+    s+=`<g class="hit${opts.sel===key?' sel':''}" data-k="${key}" data-a="${p.d}" data-t="${p.t}"${ti} aria-label="${esc(TYPES[p.t].nom+' '+lab+' : '+p.txt)}">`+(ex?`<rect class="f-fade xp-halo" x="${x1-6}" y="${y-6}" width="${w+12}" height="${bh+12}" rx="11" fill="none" stroke="var(--violet)" stroke-width="3" opacity=".45" style="animation-delay:${dl+.5}s"/>`:'')+`<rect class="bar f-bar" x="${x1}" y="${y}" width="${w}" height="${bh}" rx="7" fill="${col}"${p.approx?' stroke="var(--ink)" stroke-width="2" stroke-dasharray="6 4"':''} style="animation-delay:${dl}s"/>`;
+    if(p.out){s+=`<rect x="${x1}" y="${y}" width="${p.end-x1}" height="${bh}" fill="transparent"/><g class="f-fade" style="animation-delay:${dl+.4}s"><text class="dt" x="${x2+8}" y="${y+18}" style="fill:${col}">${esc(lab)}</text>`;p.ol.slice(0,3).forEach((l,j)=>s+=`<text class="lb" x="${x2+8}" y="${y+36+j*17}">${esc(l)}</text>`)}
+    else{s+=`<g class="f-fade" style="animation-delay:${dl+.4}s"><text class="dt" x="${x1+8}" y="${y+18}" style="fill:var(--sheet)">${esc(lab)}</text>`;
+    if(ex){s+=`<text class="lb" x="${x1+8}" y="${y+42}" style="fill:var(--sheet);font-weight:700;font-size:16px">Expertise d’action</text>`;wrap(p.txt,Math.floor((w-16)/7.4)).slice(0,4).forEach((l,j)=>s+=`<text class="lb" x="${x1+8}" y="${y+64+j*18}" style="fill:var(--sheet);font-size:14.5px">${esc(l)}</text>`)}
+    else wrap(p.txt,Math.max(10,Math.floor((w-14)/8))).slice(0,2).forEach((l,j)=>s+=`<text class="lb" x="${x1+8}" y="${y+36+j*17}" style="fill:var(--sheet)">${esc(l)}</text>`);}
     s+=`</g></g>`});
-  pts.forEach((p,i)=>{const yT=axisY-62-p.lv*LH;const isC=p.t==='conseil';const col=isC?'var(--violet)':'var(--ink)';const dl=.3+i*.09;
+  (P.compact?[...pts].sort((a,b)=>b.lv-a.lv):pts).forEach((p,i)=>{const yT=axisY-62-p.lv*LH;const isC=p.t==='conseil';const col=isC?'var(--violet)':'var(--ink)';const dl=.3+i*.09;
     s+=`<g class="hit${opts.sel===p.k?' sel':''}" data-k="${p.k}" data-a="${p.a}" data-t="${p.t}"${ti} aria-label="${esc(p.a+' : '+p.txt)}">`;
     s+=`<rect x="${p.x-6}" y="${yT-16}" width="${p.w+12}" height="${30+p.lines.length*19}" fill="transparent"/><rect x="${p.x-6}" y="${yT}" width="12" height="${axisY-yT}" fill="transparent"/>`;
     s+=`<line class="f-stem" x1="${p.x}" y1="${axisY}" x2="${p.x}" y2="${yT-2}" stroke="${col}" stroke-width="${isC?3.5:2}" style="animation-delay:${dl}s"/>`;
     if(p.t==='engagement')s+=`<g class="f-star" style="animation-delay:${dl+.35}s">${star(p.x,yT-8,9,'var(--violet)')}</g>`;
     else s+=`<circle cx="${p.x}" cy="${yT-3}" r="${isC?5:3.5}" fill="${col}" class="f-fade" style="animation-delay:${dl+.3}s"/>`;
-    s+=`<g class="f-fade" style="animation-delay:${dl+.35}s"><text class="dt" x="${p.x+9}" y="${yT+4}" style="fill:${isC?'var(--violet);font-size:17.5px;font-weight:700':'var(--ink)'}">${p.a}</text>`;
+    if(P.compact)s+=`<rect x="${p.x+4}" y="${yT-12}" width="${p.w}" height="${22+p.lines.length*(isC?20:18)}" rx="4" fill="var(--sheet)" opacity=".92"/>`;
+    s+=`<g class="f-fade" style="animation-delay:${dl+.35}s"><text class="dt" x="${p.x+9}" y="${yT+4}" style="fill:${isC?'var(--violet);font-size:17.5px;font-weight:700':'var(--ink)'}">${esc(p.lab||p.a)}</text>`;
     p.lines.forEach((l,j)=>s+=`<text class="lb" x="${p.x+9}" y="${yT+(isC?25:22)+j*(isC?20:18)}" style="fill:${isC?'var(--violet);font-weight:700;font-size:17.5px':'var(--ink)'}">${esc(l)}</text>`);
     s+=`</g></g>`});
   return s+'</svg>';
@@ -305,7 +351,8 @@ const FILTERS=[['evenement','Évènements','var(--ink)'],['engagement','Engageme
 
 function renderHeader(){
   $('#ptitle').innerHTML=esc(P().titre).replace('conseillère citoyenne','<em>conseillère citoyenne</em>');
-  $('#tabs').innerHTML=[P().court,'Parcours 2 · à venir','Parcours 3 · à venir'].map((l,i)=>`<button type="button" aria-pressed="${i===cur}" ${i>=PARCOURS.length?'disabled':''}>${esc(l)}</button>`).join('');
+  $('#tabs').innerHTML=PARCOURS.map(x=>x.court).concat(PARCOURS.length<3?['Parcours 3 · à venir']:[]).map((l,i)=>`<button type="button" data-i="${i}" aria-pressed="${i===cur}" ${i>=PARCOURS.length?'disabled':''}>${esc(l)}</button>`).join('');
+  $('#tabs').querySelectorAll('button:not([disabled])').forEach(b=>b.onclick=()=>{if(+b.dataset.i===cur)return;stop();cur=+b.dataset.i;sel=null;off.clear();renderHeader();renderFilters();setYear(P().fin,false);renderFrise(true);renderVList();resetDetail();document.getElementById('readSec').hidden=cur!==0;$('#year').min=P().naissance.annee});
   const p=P(), cc=p.points.find(x=>x.t==='conseil'), eng=p.points.filter(x=>x.t==='engagement').map(x=>x.a), firstEng=Math.min(...eng), xp=p.periodes.find(x=>x.t==='expertise');
   const k=[[age(cc.a)+' ans','âge à l’entrée au conseil citoyen ('+cc.a+')'],[(p.fin-firstEng)+' ans','d’engagement bénévole, depuis '+firstEng],[(xp.f-xp.d)+' ans','d’expertise d’action ('+xp.d+' → aujourd’hui)'],[(p.points.length+1)+' moments','et '+p.periodes.length+' périodes sur '+(p.fin-p.naissance.annee)+' ans de vie']];
   $('#kpis').innerHTML=k.map(x=>`<div class="kpi"><b>${x[0]}</b><span>${esc(x[1])}</span></div>`).join('');
@@ -356,10 +403,11 @@ function select(k){
   const per=it.d!=null;
   const meta=per?`${it.d} → ${it.f>=P().fin?'aujourd’hui':it.f} · de ${age(it.d)} à ${age(Math.min(it.f,P().fin))} ans · ${it.f-it.d} ans`:(it.t==='naissance'?P().naissance.date:`${it.a} · à ${age(it.a)} ans`);
   const g=it.g&&GLOSS.find(x=>x[0]===it.g);
-  $('#detail').innerHTML=`<span class="tag" style="background:${c.s};color:${c.c}">${esc(nom)}</span><div><div class="meta">${meta}</div><h3>${esc(it.txt)}</h3>${it.info?`<p class="def">${esc(it.info)}</p>`:''}${g?`<p class="def"><b>${esc(g[0])} :</b> ${esc(g[1])}</p>`:''}</div>`;
+  $('#detail').innerHTML=`<span class="tag" style="background:${c.s};color:${c.c}">${esc(nom)}</span><div><div class="meta">${meta}</div><h3>${esc(it.txt)}</h3>${it.info?`<p class="def">${esc(it.info)}</p>`:''}${it.q?`<p class="def" style="border-color:#b8610c">À confirmer : ${esc(it.q)}</p>`:''}${g?`<p class="def"><b>${esc(g[0])} :</b> ${esc(g[1])}</p>`:''}</div>`;
   document.querySelectorAll('#friseBox .hit').forEach(h=>h.classList.toggle('sel',h.dataset.k===k));
   document.querySelectorAll('#vlist .vrow').forEach(h=>h.classList.toggle('sel',h.dataset.k===k));
 }
+const DETAIL0=document.getElementById('detail').innerHTML;function resetDetail(){$('#detail').innerHTML=DETAIL0}
 function setYear(y,redraw=true){year=y;$('#year').value=y;$('#yearV').textContent=y;if(redraw)renderFrise(false)}
 const ICON_PLAY='<svg viewBox="0 0 18 18"><path d="M5 3l10 6-10 6z" fill="currentColor"/></svg>',ICON_PAUSE='<svg viewBox="0 0 18 18"><rect x="4" y="3" width="3.5" height="12" fill="currentColor"/><rect x="10.5" y="3" width="3.5" height="12" fill="currentColor"/></svg>';
 function stop(){clearInterval(timer);timer=null;$('#play').innerHTML=ICON_PLAY;$('#play').setAttribute('aria-label','Lancer la lecture du parcours')}
