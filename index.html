@@ -219,7 +219,7 @@ const PARCOURS=[{
   points:[
     {a:1978,t:'evenement',txt:'CAP bureautique et difficultés à trouver un emploi dans le secteur'},
     {a:1994,t:'engagement',txt:'Bénévole OYONN’ACT (politique de la ville)',g:'Politique de la ville'},
-    {a:1996,t:'engagement',txt:'Bénévole Les Lucioles'},
+    {a:1996,t:'engagement',txt:'Bénévole Les Lucioles',info:'Les Lucioles font vivre le quartier Berthelot : moments de jeux, activités culturelles et sportives, évènements (fête de quartier, tournois, sorties) pour favoriser les rencontres multiculturelles.'},
     {a:2011,t:'engagement',txt:'Visite du Parlement européen'},
     {a:2015,t:'conseil',txt:'Entrée au conseil citoyen (collège habitant volontaire)',g:'Conseil citoyen'},
     {a:2016,t:'evenement',txt:'Licenciement économique'},
@@ -229,7 +229,7 @@ const PARCOURS=[{
   ],
   periodes:[
     {t:'expertise',d:2015,f:2026,txt:'Aller vers, orientation des habitant·es et des jeunes',g:'Aller vers'},
-    {t:'perso',d:2009,f:2026,txt:'Maman solo'},
+    {t:'perso',d:2004,f:2026,txt:'Maman solo'},
     {t:'pro',d:1989,f:2016,txt:'Contrôleuse qualité et formatrice de collègues'},
     {t:'pro',d:2017,f:2026,txt:'Agent périscolaire'},
     {t:'asso',d:1994,f:2009,txt:'OYONN’ACT',g:'Politique de la ville'}
@@ -356,7 +356,7 @@ function select(k){
   const per=it.d!=null;
   const meta=per?`${it.d} → ${it.f>=P().fin?'aujourd’hui':it.f} · de ${age(it.d)} à ${age(Math.min(it.f,P().fin))} ans · ${it.f-it.d} ans`:(it.t==='naissance'?P().naissance.date:`${it.a} · à ${age(it.a)} ans`);
   const g=it.g&&GLOSS.find(x=>x[0]===it.g);
-  $('#detail').innerHTML=`<span class="tag" style="background:${c.s};color:${c.c}">${esc(nom)}</span><div><div class="meta">${meta}</div><h3>${esc(it.txt)}</h3>${g?`<p class="def"><b>${esc(g[0])} :</b> ${esc(g[1])}</p>`:''}</div>`;
+  $('#detail').innerHTML=`<span class="tag" style="background:${c.s};color:${c.c}">${esc(nom)}</span><div><div class="meta">${meta}</div><h3>${esc(it.txt)}</h3>${it.info?`<p class="def">${esc(it.info)}</p>`:''}${g?`<p class="def"><b>${esc(g[0])} :</b> ${esc(g[1])}</p>`:''}</div>`;
   document.querySelectorAll('#friseBox .hit').forEach(h=>h.classList.toggle('sel',h.dataset.k===k));
   document.querySelectorAll('#vlist .vrow').forEach(h=>h.classList.toggle('sel',h.dataset.k===k));
 }
